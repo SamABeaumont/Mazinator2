@@ -154,14 +154,34 @@ public abstract class Sketchpad {
 	public void mouseWheelMoved(MouseWheelEvent e) {}
 	
 	public final int getHeight() {
-		return p.getHeight();
+		return f.getHeight();
 	}
 	
-	public Dimension getMaximumSize() {
+	public final Dimension getMaximumSize() {
 		return f.getMaximumSize();
 	}
 	
-	public Dimension getMinimumSize() {
+	public final Dimension getMinimumSize() {
 		return f.getMinimumSize();
+	}
+	
+	public final Dimension getPreferredSize() {
+		return f.getPreferredSize();
+	}
+	
+	public final int getWindowWidth() {
+		return f.getWidth();
+	}
+	
+	public final void setMaximumSize(Dimension maximumSize) {
+		f.setMaximumSize(maximumSize);
+	}
+	
+	public final void setMinimumSize(Dimension minimumSize) {
+		f.setMinimumSize(minimumSize);
+	}
+	
+	public final void setPreferredSize(Dimension preferredSize) {
+		f.setPreferredSize(preferredSize);
 	}
 }
