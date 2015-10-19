@@ -1,5 +1,5 @@
 package model;
 
-public final class Menu {
+public final class Menu implements Screen {
 
 }
