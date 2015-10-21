@@ -28,7 +28,7 @@ public final class Preferences extends Menu {
 	private static Color enemiesColor = DEFAULT_ENEMIES_COLOR;
 	
 	public Preferences (Model model) {
-		super(background,
+		super(model, background,
 				new DrawableString(new Point(20, 20), "preferences", wallsColor, titleFont),
 				new MenuOption[] {
 					

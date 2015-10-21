@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.event.MouseEvent;
+import java.awt.Graphics;
 
 import lib.Background;
 
@@ -33,6 +34,11 @@ public class Menu extends Screen {
 	}
 	
 	public void mouseMoved(MouseEvent e) {
+		
+	}
+	
+	@Override
+	public void display(Graphics g) {
 		
 	}
 }

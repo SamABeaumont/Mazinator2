@@ -1,9 +1,12 @@
 package model;
 
+import java.awt.event.MouseEvent;
+
 import lib.Background;
 import lib.Rectangle;
 
 public final class MenuOption {
+	private Model model;
 	private boolean hasFocus;
 	private Background background;
 	private Background focusBackground;
@@ -12,7 +15,8 @@ public final class MenuOption {
 	private DrawableString focusText;
 	private int screen;
 	
-	public MenuOption(Background background, Rectangle bounds, DrawableString text, int screen) {
+	public MenuOption(Model model, Background background, Rectangle bounds, DrawableString text,
+			int screen) {
 		this(background, background, bounds, text, text, screen);
 	}
 	
@@ -46,11 +50,18 @@ public final class MenuOption {
 		}
 	}
 	
+	public void mouseClicked(MouseEvent e) {
+		
+	}
+	
+	public void mouseMoved(MouseEvent e) {
+		
+	}
+	
 	@Override
 	public String toString() {
 		return getClass().getName() + "[hasFocus = " + hasFocus + ",background=" + background
 				+ ",focusBackground=" + focusBackground + ",bounds=" + bounds + ",text=" + text
 				+ ",focusText=" + focusText + "]";
-		
 	}
 }

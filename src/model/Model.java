@@ -1,17 +1,13 @@
 package model;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.Font;
 
-import lib.Background;
-import lib.Point;
 import view.View;
 
 public final class Model {
 	private Screen[] screens;
-	Screen currentScreen;
+	private Screen currentScreen;
 	private View view;
 	
 	public Model() {
@@ -32,6 +28,10 @@ public final class Model {
 	
 	public void mouseMoved(MouseEvent e) {
 		
+	}
+	
+	void setScreen(int screen) {
+		currentScreen = screens[screen];
 	}
 	
 	public static void main(String[] args) {
