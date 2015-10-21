@@ -1,63 +1,56 @@
 package model;
 
-import java.awt.Color;
-import java.awt.Rectangle;
-
-import lib.Point;
+import lib.Background;
+import lib.Rectangle;
 
 public final class MenuOption {
-	private Color bgColor;
-	private Color bgFocusColor;
+	private boolean hasFocus;
+	private Background background;
+	private Background focusBackground;
 	private Rectangle bounds;
-	private String text;
-	private Color textColor;
-	private Color textFocusColor;
-	private Point textLoc;
+	private DrawableString text;
+	private DrawableString focusText;
+	private int screen;
 	
-	public MenuOption(Color bgColor, Color bgFocusColor, Rectangle bounds, String text,
-			Color textColor, Color textFocusColor, Point textLoc) {
-		this.bgColor = bgColor;
-		this.bgFocusColor = bgFocusColor;
+	public MenuOption(Background background, Rectangle bounds, DrawableString text, int screen) {
+		this(background, background, bounds, text, text, screen);
+	}
+	
+	public MenuOption(Background background, Background focusBackground, Rectangle bounds,
+			DrawableString text, DrawableString focusText, int screen) {
+		this.background = background;
+		this.focusBackground = focusBackground;
 		this.bounds = bounds;
 		this.text = text;
-		this.textColor = textColor;
-		this.textFocusColor = textFocusColor;
-		this.textLoc = textLoc;
+		this.focusText = text;
+		this.screen = screen;
 	}
 	
-	public Color getBackgroundColor() {
-		return bgColor;
-	}
-	
-	public Color getBackgroundFocusColor() {
-		return bgFocusColor;
+	public Background getBackground() {
+		if (hasFocus) {
+			return focusBackground;
+		} else {
+			return background;
+		}
 	}
 	
 	public Rectangle getBounds() {
 		return (Rectangle) bounds.clone();
 	}
 	
-	public String getText() {
-		return text;
-	}
-	
-	public Color getTextColor() {
-		return textColor;
-	}
-	
-	public Color getTextFocusColor() {
-		return textFocusColor;
-	}
-	
-	public Point getTextLoc() {
-		return textLoc.clone();
+	public DrawableString getText() {
+		if (hasFocus) {
+			return focusText;
+		} else {
+			return text;
+		}
 	}
 	
 	@Override
 	public String toString() {
-		return getClass().getName() + "[bgColor=" + bgColor + ",bgFocusColor=" + bgFocusColor
-				+ ",bounds=" + bounds + ",text=" + text + ",textColor=" + textColor +
-				",textFocusColor=" + textFocusColor + ",textLoc=" + textLoc + "]";
+		return getClass().getName() + "[hasFocus = " + hasFocus + ",background=" + background
+				+ ",focusBackground=" + focusBackground + ",bounds=" + bounds + ",text=" + text
+				+ ",focusText=" + focusText + "]";
 		
 	}
 }

@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.Graphics;
 
 import model.Model;
@@ -20,5 +22,15 @@ public final class View extends Sketchpad {
 	@Override
 	public void draw(Graphics g) {
 		
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		model.keyPressed(e);
+	}
+	
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		model.mouseMoved(e);
 	}
 }

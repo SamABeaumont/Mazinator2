@@ -1,5 +1,11 @@
 package model;
 
-public final class Game implements Screen {
-
+public final class Game extends Screen {
+	public Game(Model model) {
+		super(model);
+	}
+	
+	void start() {
+		
+	}
 }
