@@ -1,10 +1,12 @@
-package lib;
+package model;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+
+import lib.Dimension;
 
 public final class Background implements ImageObserver {
 	private Dimension size;
@@ -24,18 +26,35 @@ public final class Background implements ImageObserver {
 	}
 	
 	public Background(Color color, Dimension size) {
+		createImage(color, null);
 		this.color = color;
 		this.size = size;
 	}
 	
 	public Background(Image image) {
-		this.color = new Color(0, 0, 0, 1);
-		this.image = image;
+		this(new Color(0, 0, 0, 0), image);
 	}
 	
 	public Background(Color color, Image image) {
-		this.color = color;
-		this.image = image;
+		createImage(color, image);
+	}
+	
+	private void createImage(Color color, Image image) {
+		BufferedImage img;
+		if (image == null) {
+			img = new BufferedImage((int) size.getWidth(), (int) size.getHeight(),
+					BufferedImage.TYPE_INT_ARGB);
+		} else {
+			img = new BufferedImage(image.getWidth(this), image.getHeight(this),
+					BufferedImage.TYPE_INT_ARGB);
+		}
+		Graphics2D g = (Graphics2D) img.getGraphics();
+		g.setColor(color);
+		g.fillRect(0, 0, img.getWidth(), img.getHeight());
+		if (image != null) {
+			g.drawImage(image, 0, 0, this);
+		}
+		this.image = img;
 	}
 	
 	public int getWidth() {
@@ -55,22 +74,14 @@ public final class Background implements ImageObserver {
 	}
 	
 	public Image getImage() {
-		if (image != null) {
-			return image;
-		} else {
-			BufferedImage img = new BufferedImage(25, 25, BufferedImage.TYPE_INT_ARGB);
-			Graphics2D g = (Graphics2D) img.getGraphics();
-			g.setColor(color);
-			g.fillRect(0, 0, 25, 25);
-			return img;
-		}
+		return image;
 	}
 	
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 		return false;
 	}
-
+	
 	@Override
 	public String toString() {
 		return getClass().getName() + "[color=" + color + ",image=" + image + "]";

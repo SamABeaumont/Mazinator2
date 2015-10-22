@@ -2,7 +2,6 @@ package model;
 
 import java.awt.event.MouseEvent;
 
-import lib.Background;
 import lib.Rectangle;
 
 public final class MenuOption {
@@ -51,11 +50,20 @@ public final class MenuOption {
 	}
 	
 	public void mouseClicked(MouseEvent e) {
-		
+		if (bounds.contains((double) e.getX(), (double) e.getY())) {
+			hasFocus = true;
+			model.setScreen(screen);
+		} else {
+			hasFocus = false;
+		}
 	}
 	
 	public void mouseMoved(MouseEvent e) {
-		
+		if (bounds.contains((double) e.getX(), (double) e.getY())) {
+			hasFocus = true;
+		} else {
+			hasFocus = false;
+		}
 	}
 	
 	@Override

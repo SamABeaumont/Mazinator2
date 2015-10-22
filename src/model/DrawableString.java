@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 
 import lib.Point;
 
@@ -26,6 +27,14 @@ public class DrawableString {
 		return location.clone();
 	}
 	
+	public int getX() {
+		return (int) location.getX();
+	}
+	
+	public int getY() {
+		return (int) location.getY();
+	}
+	
 	public String getString() {
 		return string;
 	}
@@ -36,6 +45,16 @@ public class DrawableString {
 	
 	public Font getFont() {
 		return font;
+	}
+	
+	public void display(Graphics g) {
+		Color c = g.getColor();
+		Font f = g.getFont();
+		g.setColor(color);
+		g.setFont(font);
+		g.drawString(string, (int) location.getX(), (int) location.getY());
+		g.setColor(c);
+		g.setFont(f);
 	}
 	
 	@Override

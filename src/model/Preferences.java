@@ -3,7 +3,6 @@ package model;
 import java.awt.Color;
 import java.awt.Font;
 
-import lib.Background;
 import lib.Dimension;
 import lib.Point;
 
@@ -33,6 +32,14 @@ public final class Preferences extends Menu {
 				new MenuOption[] {
 					
 				});
+	}
+	
+	public static int getWindowWidth() {
+		return (int) windowSize.getWidth();
+	}
+	
+	public static int getWindowHeight() {
+		return (int) windowSize.getHeight();
 	}
 	
 	public static Dimension getWindowSize() {
