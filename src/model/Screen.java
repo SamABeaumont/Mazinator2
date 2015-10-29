@@ -1,8 +1,6 @@
 package model;
 
-import java.awt.Graphics;
-
-public abstract class Screen {
+public abstract class Screen extends EventReciever implements Displayable {
 	private Model model;
 	
 	public Screen(Model model) {
@@ -13,5 +11,5 @@ public abstract class Screen {
 		return model;
 	}
 	
-	public abstract void display(Graphics g);
+	void exit() {}
 }

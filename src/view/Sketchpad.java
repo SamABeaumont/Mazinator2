@@ -25,11 +25,14 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
-public abstract class Sketchpad implements Runnable {
+import model.EventReciever;
+
+public abstract class Sketchpad extends EventReciever implements Runnable {
 	private Color background = Color.BLACK;
 	private Graphics g;
 	private JFrame f;
 	private JPanel p;
+	private boolean canDraw = false;
 	private long lastClickTime;
 	
 	protected Sketchpad() {
@@ -37,11 +40,14 @@ public abstract class Sketchpad implements Runnable {
 		p = new JPanel(true) {
 			@Override
 			public void paint(Graphics g) {
-				Color c = g.getColor();
-				g.setColor(background);
-				g.fillRect(0, 0, p.getWidth(), p.getHeight());
-				g.setColor(c);
-				draw(g);
+				if (canDraw) {
+					Color c = g.getColor();
+					g.setColor(background);
+					g.fillRect(0, 0, p.getWidth(), p.getHeight());
+					g.setColor(c);
+					draw(g);
+					repaint();
+				}
 			}
 			
 			private static final long serialVersionUID = 7689980947403877048L;
@@ -207,53 +213,9 @@ public abstract class Sketchpad implements Runnable {
 	
 	public abstract void draw(Graphics g);
 	
-	public void windowLostFocus(WindowEvent e) {}
-	
-	public void windowGainedFocus(WindowEvent e) {}
-	
-	public void windowActivated(WindowEvent e) {}
-	
-	public void windowClosed(WindowEvent e) {}
-	
-	public void windowClosing(WindowEvent e) {}
-	
-	public void windowDeactivated(WindowEvent e) {}
-	
-	public void windowDeiconified(WindowEvent e) {}
-	
-	public void windowIconified(WindowEvent e) {}
-	
-	public void windowOpened(WindowEvent e) {}
-	
-	public void windowStateChanged(WindowEvent e) {}
-	
-	public void focusLost(FocusEvent e) {}
-	
-	public void focusGained(FocusEvent e) {}
-	
-	public void keyPressed(KeyEvent e) {}
-	
-	public void keyTyped(KeyEvent e) {}
-	
-	public void keyReleased(KeyEvent e) {}
-	
-	public void mouseClicked(MouseEvent e) {}
-	
-	public void mouseDoubleclicked(MouseEvent e) {}
-	
-	public void mouseEntered(MouseEvent e) {}
-	
-	public void mouseExited(MouseEvent e) {}
-	
-	public void mousePressed(MouseEvent e) {}
-	
-	public void mouseReleased(MouseEvent e) {}
-	
-	public void mouseDragged(MouseEvent e) {}
-	
-	public void mouseMoved(MouseEvent e) {}
-	
-	public void mouseWheelMoved(MouseWheelEvent e) {}
+	protected final void start() {
+		canDraw = true;
+	}
 	
 	public final Color getBackground() {
 		return background;
@@ -264,47 +226,47 @@ public abstract class Sketchpad implements Runnable {
 	}
 	
 	public final Dimension getMaximumSize() {
-		return p.getMaximumSize();
+		return f.getMaximumSize();
 	}
 	
 	public final Dimension getMinimumSize() {
-		return p.getMinimumSize();
+		return f.getMinimumSize();
 	}
 	
 	public final Dimension getPreferredSize() {
-		return p.getPreferredSize();
+		return f.getPreferredSize();
 	}
 	
 	public final Dimension getSize() {
-		return p.getSize();
+		return f.getSize();
 	}
 	
 	public final int getWidth() {
-		return p.getWidth();
+		return f.getWidth();
 	}
 	
 	public final void setSize(int width, int height) {
-		p.setSize(width, height);
+		f.setSize(width, height);
 	}
 	
 	public final void setSize(Dimension d) {
-		p.setSize(d);
+		f.setSize(d);
 	}
 	
 	public final void setMaximumSize(Dimension maximumSize) {
-		p.setMaximumSize(maximumSize);
+		f.setMaximumSize(maximumSize);
 	}
 	
 	public final void setMinimumSize(Dimension minimumSize) {
-		p.setMinimumSize(minimumSize);
+		f.setMinimumSize(minimumSize);
 	}
 	
 	public final Rectangle getBounds() {
-		return p.getBounds();
+		return f.getBounds();
 	}
 	
 	public final int getHeight() {
-		return p.getHeight();
+		return f.getHeight();
 	}
 	
 	public final void setIconImage(Image image) {
@@ -349,66 +311,6 @@ public abstract class Sketchpad implements Runnable {
 
 	public final void setDefaultCloseOperation(int operation) {
 		f.setDefaultCloseOperation(operation);
-	}
-	
-	public final int getWindowHeight() {
-		return f.getHeight();
-	}
-	
-	public final Dimension getWindowSize() {
-		return f.getSize();
-	}
-	
-	public final Dimension getWindowMaximumSize() {
-		return f.getMaximumSize();
-	}
-	
-	public final Dimension getWindowMinimumSize() {
-		return f.getMinimumSize();
-	}
-	
-	public final Dimension getWindowPreferredSize() {
-		return f.getPreferredSize();
-	}
-	
-	public final Rectangle getWindowBounds() {
-		return f.getBounds();
-	}
-	
-	public final int getWindowWidth() {
-		return f.getWidth();
-	}
-	
-	public final void setWindowSize(int width, int height) {
-		f.setSize(width, height);
-	}
-	
-	public final void setWindowSize(Dimension size) {
-		f.setSize(size);
-	}
-	
-	public final void setWindowMaximumSize(int width, int height) {
-		f.setMaximumSize(new Dimension(width, height));
-	}
-	
-	public final void setWindowMaximumSize(Dimension maximumSize) {
-		f.setMaximumSize(maximumSize);
-	}
-	
-	public final void setWindowMinimumSize(int width, int height) {
-		f.setMinimumSize(new Dimension(width, height));
-	}
-	
-	public final void setWindowMinimumSize(Dimension minimumSize) {
-		f.setMinimumSize(minimumSize);
-	}
-	
-	public final void setWindowPreferredSize(int width, int height) {
-		f.setPreferredSize(new Dimension(width, height));
-	}
-	
-	public final void setWindowPreferredSize(Dimension preferredSize) {
-		f.setPreferredSize(preferredSize);
 	}
 	
 	public final Cursor getCursor() {

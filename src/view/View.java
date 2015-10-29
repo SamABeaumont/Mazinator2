@@ -9,8 +9,9 @@ import model.Model;
 public final class View extends Sketchpad {
 	private Model model;
 	
-	public View (Model model) {
-		this.model = model;
+	public View () {
+		model = new Model();
+		start();
 	}
 	
 	@Override
@@ -21,16 +22,34 @@ public final class View extends Sketchpad {
 	
 	@Override
 	public void draw(Graphics g) {
-		
+		if (model != null) {
+			model.display(g);
+		}
 	}
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		model.keyPressed(e);
+		if (model != null) {
+			model.keyPressed(e);
+		}
+	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (model != null) {
+			model.mouseClicked(e);
+		}
 	}
 	
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		model.mouseMoved(e);
+		if (model != null) {
+			model.mouseMoved(e);
+		}
+	}
+	
+	public static void main (String[] args) {
+		@SuppressWarnings("unused")
+		View view = new View();
 	}
 }

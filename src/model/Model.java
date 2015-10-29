@@ -1,41 +1,118 @@
 package model;
 
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-import view.View;
+import lib.Rectangle;
 
-public final class Model {
-	private Screen[] screens;
+public final class Model extends EventReciever implements Displayable {
+	private Screen[] screens = new Screen[4];
 	private Screen currentScreen;
-	private View view;
+	private Game game;
 	
 	public Model() {
-		this.view = new View(this);
-		initializeScreens();
+		screens[Screens.HOME] = new Menu(this, Preferences.getColor(),
+				new DrawableString(100, 100, "mazinator", Preferences.getWallsColor(),
+						Preferences.getLargeFont()),
+				new MenuOption[] {
+						new MenuOption(this, Preferences.getColor(), Preferences.getWallsColor(),
+								new Rectangle(0, 100, Preferences.getWindowWidth(),
+										100),
+										new DrawableString(20, 120, "play game",
+												Preferences.getWallsColor(),
+												Preferences.getMediumFont()),
+										new DrawableString(20, 120, "play game",
+												Preferences.getColor(),
+												Preferences.getMediumFont()),
+										Screens.GAME),
+						new MenuOption(this, Preferences.getColor(), Preferences.getWallsColor(),
+								new Rectangle(0, 200, Preferences.getWindowWidth(), 100),
+								new DrawableString(20, 220, "instructions",
+										Preferences.getWallsColor(),
+										Preferences.getMediumFont()),
+								new DrawableString(20, 220, "instructions",
+										Preferences.getColor(), Preferences.getMediumFont()),
+								Screens.INSTRUCTIONS),
+						new MenuOption(this, Preferences.getColor(), Preferences.getWallsColor(),
+								new Rectangle(0, 300, Preferences.getWindowWidth(), 100),
+								new DrawableString(20, 320, "preferences",
+										Preferences.getWallsColor(), Preferences.getMediumFont()),
+								new DrawableString(0, 320, "preferences",
+										Preferences.getColor(), Preferences.getMediumFont()),
+								Screens.PREFERENCES)
+						});
+		screens[Screens.GAME] = game;
+		screens[Screens.INSTRUCTIONS] = new Screen(this) {
+			private boolean showMenu = false;
+			private DrawableString[] instructions = {
+					new DrawableString(20, 20,
+							"Use the the up and down arrow keys to move forward and backward.",
+							Preferences.getWallsColor(), Preferences.getSmallFont()),
+					new DrawableString(20, 40, "Use the left and right arrow keys to turn.",
+							Preferences.getWallsColor(), Preferences.getSmallFont()),
+					new DrawableString(20, 60, "Press M to shoot.", Preferences.getWallsColor(),
+							Preferences.getSmallFont()),
+					new DrawableString(20, 80, "Press P to pause.", Preferences.getWallsColor(),
+							Preferences.getSmallFont()),
+					new DrawableString(20, 100, "Enjoy.", Preferences.getWallsColor(),
+							Preferences.getSmallFont())
+			};
+			
+			private Menu menu = new Menu(Model.this, Preferences.getColor(),
+					new DrawableString(20, 20, "instructions", Preferences.getWallsColor(),
+							Preferences.getLargeFont()), new MenuOption[] {
+									
+							});
+			
+			@Override
+			public void display(Graphics g) {
+				if (showMenu) {
+					menu.display(g);
+				} else {
+					for (int i = 0; i < instructions.length; i++) {
+						instructions[i].display(g);
+					}
+				}
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				showMenu = true;
+			}
+		};
+		screens[Screens.PREFERENCES] = new Preferences(this);
+		currentScreen = screens[Screens.HOME];
 	}
 	
-	private void initializeScreens() {
-		screens[Screens.HOME] = null;
-		screens[Screens.GAME] = null;
-		screens[Screens.INSTRUCTIONS] = null;
-		screens[Screens.PREFERENCES] = null;
-	}
-	
+	@Override
 	public void keyPressed(KeyEvent e) {
-		
+		currentScreen.keyPressed(e);
 	}
 	
+	@Override
 	public void mouseMoved(MouseEvent e) {
-		
+		currentScreen.mouseMoved(e);
+	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		currentScreen.mouseClicked(e);
 	}
 	
 	void setScreen(int screen) {
-		currentScreen = screens[screen];
+		currentScreen.exit();
+		if (screen == Screens.GAME) {
+			game = new Game(this);
+			currentScreen = screens[Screens.GAME];
+			game.start();
+		} else {
+			currentScreen = screens[screen];
+		}
 	}
 	
-	public static void main(String[] args) {
-		@SuppressWarnings("unused")
-		Model m = new Model();
+	@Override
+	public void display(Graphics g) {
+		currentScreen.display(g);
 	}
 }

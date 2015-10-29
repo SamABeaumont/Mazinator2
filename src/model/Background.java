@@ -10,7 +10,6 @@ import lib.Dimension;
 
 public final class Background implements ImageObserver {
 	private Dimension size;
-	private Color color;
 	private Image image;
 	
 	public Background() {
@@ -27,7 +26,6 @@ public final class Background implements ImageObserver {
 	
 	public Background(Color color, Dimension size) {
 		createImage(color, null);
-		this.color = color;
 		this.size = size;
 	}
 	
@@ -37,6 +35,7 @@ public final class Background implements ImageObserver {
 	
 	public Background(Color color, Image image) {
 		createImage(color, image);
+		size = new Dimension(image.getWidth(this), image.getHeight(this));
 	}
 	
 	private void createImage(Color color, Image image) {
@@ -84,6 +83,6 @@ public final class Background implements ImageObserver {
 	
 	@Override
 	public String toString() {
-		return getClass().getName() + "[color=" + color + ",image=" + image + "]";
+		return getClass().getName() + "[size=" + size + ",image=" + image + "]";
 	}
 }

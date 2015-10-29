@@ -6,7 +6,7 @@ import java.awt.Graphics;
 
 import lib.Point;
 
-public class DrawableString {
+public class DrawableString implements Displayable {
 	private Point location;
 	private String string;
 	private Color color;
@@ -70,7 +70,7 @@ public class DrawableString {
 	
 	@Override
 	public String toString() {
-		return getClass().getName() + "[string=" + string + ",color=" + color + ",font="
-				+ font + "]";
+		return getClass().getName() + "[location=" + location + ",string=" + string + ",color="
+				+ color + ",font=" + font + "]";
 	}
 }
