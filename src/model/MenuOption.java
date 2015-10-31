@@ -10,7 +10,7 @@ import lib.Rectangle;
  * A class to represent an option in a menu.
  * @author Sam Beaumont
  */
-public final class MenuOption implements Displayable {
+public abstract class MenuOption extends EventReciever implements Displayable {
 	private Model model;
 	private boolean hasFocus = false;
 	private Color color;
@@ -18,7 +18,6 @@ public final class MenuOption implements Displayable {
 	private Rectangle bounds;
 	private DrawableString text;
 	private DrawableString focusText;
-	private int screen;
 	
 	/**
 	 * Initializes a new {@code MenuOption} object with exactly one {@link Background} and exactly
@@ -33,9 +32,8 @@ public final class MenuOption implements Displayable {
 	 * @param screen The {@link Screen} object to be displayed when this {@code MenuOption} is
 	 * clicked.
 	 */
-	public MenuOption(Model model, Color color, Rectangle bounds, DrawableString text,
-			int screen) {
-		this(model, color, color, bounds, text, text, screen);
+	public MenuOption(Model model, Color color, Rectangle bounds, DrawableString text) {
+		this(model, color, color, bounds, text, text);
 	}
 	
 	/**
@@ -55,17 +53,21 @@ public final class MenuOption implements Displayable {
 	 * clicked.
 	 */
 	public MenuOption(Model model, Color color, Color focusColor,
-			Rectangle bounds, DrawableString text, DrawableString focusText, int screen) {
+			Rectangle bounds, DrawableString text, DrawableString focusText) {
+		this.model = model;
 		this.color = color;
 		this.focusColor = focusColor;
 		this.bounds = bounds;
 		this.text = text;
-		this.focusText = text;
-		this.screen = screen;
+		this.focusText = focusText;
 	}
 	
-	protected Rectangle getBounds() {
+	protected final Rectangle getBounds() {
 		return bounds.clone();
+	}
+	
+	protected final Model getModel() {
+		return model;
 	}
 	
 	/**
@@ -76,16 +78,20 @@ public final class MenuOption implements Displayable {
 	 * @param e
 	 * @see MouseListener#mouseClicked(MouseEvent)
 	 */
-	public void mouseClicked(MouseEvent e) {
+	@Override
+	public final void mouseClicked(MouseEvent e) {
 		if (bounds.contains((double) e.getX(), (double) e.getY())) {
 			hasFocus = true;
-			model.setScreen(screen);
+			onClick();
 		} else {
 			hasFocus = false;
 		}
 	}
 	
-	public void mouseMoved(MouseEvent e) {
+	abstract void onClick();
+	
+	@Override
+	public final void mouseMoved(MouseEvent e) {
 		if (bounds.contains((double) e.getX(), (double) e.getY())) {
 			hasFocus = true;
 		} else {
@@ -94,7 +100,7 @@ public final class MenuOption implements Displayable {
 	}
 	
 	@Override
-	public void display(Graphics g) {
+	public final void display(Graphics g) {
 		Color color;
 		if (hasFocus) {
 			color = focusColor;
@@ -117,9 +123,9 @@ public final class MenuOption implements Displayable {
 	}
 	
 	@Override
-	public String toString() {
+	public final String toString() {
 		return getClass().getName() + "[hasFocus = " + hasFocus + ",color=" + color
 				+ ",focusColor=" + focusColor + ",bounds=" + bounds + ",text=" + text
-				+ ",focusText=" + focusText + "]";
+				+ ",focusText=" + focusText + "]@" + hashCode();
 	}
 }

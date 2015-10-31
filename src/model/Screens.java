@@ -6,5 +6,5 @@ public final class Screens {
 	public static final int INSTRUCTIONS = 2;
 	public static final int PREFERENCES = 3;
 	
-	private Screens() {}
+	private Screens() {} // prevent this class from being instantiated
 }

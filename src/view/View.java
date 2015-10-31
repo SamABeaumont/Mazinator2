@@ -16,6 +16,7 @@ public final class View extends Sketchpad {
 	
 	@Override
 	public void setup (Graphics g) {
+		setTitle("mazinator");
 		setSize(400, 600);
 		setResizable(false);
 	}
@@ -36,6 +37,7 @@ public final class View extends Sketchpad {
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		System.out.println("called View.mouseClicked(MouseEvent)");
 		if (model != null) {
 			model.mouseClicked(e);
 		}

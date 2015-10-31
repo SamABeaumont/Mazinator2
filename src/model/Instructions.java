@@ -29,7 +29,6 @@ public final class Instructions extends Screen {
 						Preferences.getLargeFont()), new MenuOption[] {
 								
 						});
-		System.out.println(this);
 	}
 	
 	@Override
@@ -40,6 +39,10 @@ public final class Instructions extends Screen {
 			for (int i = 0; i < INSTRUCTIONS.length; i++) {
 				INSTRUCTIONS[i].display(g);
 			}
+			
+			new DrawableString(20, Preferences.getWindowHeight() - 20,
+					"Press any key to continue...", Preferences.getWallsColor(),
+					Preferences.getSmallFont()).display(g);
 		}
 	}
 	
@@ -50,5 +53,10 @@ public final class Instructions extends Screen {
 	
 	public static void main(String[] args) {
 		Instructions i = new Instructions(new Model());
+	}
+	
+	@Override
+	public String toString() {
+		return getClass().getName() + "[showMenu=" + showMenu + "]@" + hashCode();
 	}
 }

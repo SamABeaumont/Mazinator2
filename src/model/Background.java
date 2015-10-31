@@ -83,6 +83,6 @@ public final class Background implements ImageObserver {
 	
 	@Override
 	public String toString() {
-		return getClass().getName() + "[size=" + size + ",image=" + image + "]";
+		return getClass().getName() + "[size=" + size + ",image=" + image + "]@" + hashCode();
 	}
 }

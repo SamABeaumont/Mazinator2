@@ -149,23 +149,7 @@ public abstract class Sketchpad extends EventReciever implements Runnable {
 		p.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				long startTime = System.currentTimeMillis();
-				if (startTime - lastClickTime <= 500 && lastClickTime > 0L) {
-					Sketchpad.this.mouseDoubleclicked(e);
-					lastClickTime = 0L;
-				} else {
-					try {
-						Thread.sleep(500);
-					} catch (InterruptedException ex) {
-						Sketchpad.this.mouseClicked(e);
-					}
-					
-					if (lastClickTime == startTime) {
-						Sketchpad.this.mouseClicked(e);
-					}
-					
-					lastClickTime = startTime;
-				}
+				Sketchpad.this.mouseClicked(e);
 			}
 
 			@Override

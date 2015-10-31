@@ -51,6 +51,7 @@ public class Dimension extends Dimension2D {
 	
 	@Override
 	public String toString() {
-		return getClass().getName() + "[width=" + width + ",height=" + height + "]";
+		return getClass().getName() + "[width=" + width + ",height=" + height + "]@"
+				+ hashCode();
 	}
 }

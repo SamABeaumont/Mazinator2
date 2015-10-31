@@ -13,35 +13,48 @@ public final class Model extends EventReciever implements Displayable {
 	
 	public Model() {
 		screens[Screens.HOME] = new Menu(this, Preferences.getColor(),
-				new DrawableString(100, 100, "mazinator", Preferences.getWallsColor(),
+				new DrawableString(80, 80, "mazinator", Preferences.getWallsColor(),
 						Preferences.getLargeFont()),
 				new MenuOption[] {
 						new MenuOption(this, Preferences.getColor(), Preferences.getWallsColor(),
 								new Rectangle(0, 100, Preferences.getWindowWidth(),
 										100),
-										new DrawableString(20, 120, "play game",
+										new DrawableString(90, 155, "play game",
 												Preferences.getWallsColor(),
 												Preferences.getMediumFont()),
-										new DrawableString(20, 120, "play game",
+										new DrawableString(90, 155, "play game",
 												Preferences.getColor(),
-												Preferences.getMediumFont()),
-										Screens.GAME),
+												Preferences.getMediumFont())) {
+							@Override
+							protected void onClick() {
+								System.out.println(getModel());
+								getModel().setScreen(Screens.GAME);
+							}
+						},
 						new MenuOption(this, Preferences.getColor(), Preferences.getWallsColor(),
 								new Rectangle(0, 200, Preferences.getWindowWidth(), 100),
-								new DrawableString(20, 220, "instructions",
+								new DrawableString(90, 255, "instructions",
 										Preferences.getWallsColor(),
 										Preferences.getMediumFont()),
-								new DrawableString(20, 220, "instructions",
-										Preferences.getColor(), Preferences.getMediumFont()),
-								Screens.INSTRUCTIONS),
+								new DrawableString(90, 255, "instructions",
+										Preferences.getColor(), Preferences.getMediumFont())) {
+							@Override
+							protected void onClick() {
+								getModel().setScreen(Screens.INSTRUCTIONS);
+							}
+						},
 						new MenuOption(this, Preferences.getColor(), Preferences.getWallsColor(),
 								new Rectangle(0, 300, Preferences.getWindowWidth(), 100),
-								new DrawableString(20, 320, "preferences",
+								new DrawableString(90, 355, "preferences",
 										Preferences.getWallsColor(), Preferences.getMediumFont()),
-								new DrawableString(0, 320, "preferences",
-										Preferences.getColor(), Preferences.getMediumFont()),
-								Screens.PREFERENCES)
-						});
+								new DrawableString(90, 355, "preferences",
+										Preferences.getColor(), Preferences.getMediumFont())) {
+							@Override
+							protected void onClick() {
+								getModel().setScreen(Screens.PREFERENCES);
+							}
+						}
+				});
 		screens[Screens.GAME] = game;
 		screens[Screens.INSTRUCTIONS] = new Screen(this) {
 			private boolean showMenu = false;

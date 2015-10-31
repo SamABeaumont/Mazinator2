@@ -3,6 +3,8 @@ package model;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.Graphics;
+import java.util.Arrays;
+
 
 public class Menu extends Screen {
 	private Color backgroundColor;
@@ -40,5 +42,11 @@ public class Menu extends Screen {
 		for (int option = 0; option < options.length; option++) {
 			options[option].display(g);
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return getClass().getName() + "[backgroundColor=" + backgroundColor + ",title=" + title
+				+ ",options=" + Arrays.toString(options) + "]@" + hashCode();
 	}
 }

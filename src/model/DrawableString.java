@@ -71,6 +71,6 @@ public class DrawableString implements Displayable {
 	@Override
 	public String toString() {
 		return getClass().getName() + "[location=" + location + ",string=" + string + ",color="
-				+ color + ",font=" + font + "]";
+				+ color + ",font=" + font + "]@" + hashCode();
 	}
 }

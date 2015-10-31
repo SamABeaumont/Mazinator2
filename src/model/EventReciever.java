@@ -7,7 +7,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.WindowEvent;
 
 public abstract class EventReciever {
-public void windowLostFocus(WindowEvent e) {}
+	public void windowLostFocus(WindowEvent e) {}
 	
 	public void windowGainedFocus(WindowEvent e) {}
 	

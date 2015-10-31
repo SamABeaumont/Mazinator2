@@ -5,7 +5,7 @@ import java.awt.geom.Rectangle2D;
 public class Rectangle extends Rectangle2D {
 	private Point location;
 	private Dimension size;
-
+	
 	public Rectangle() {
 		this(new Point(), new Dimension());
 	}
@@ -133,5 +133,11 @@ public class Rectangle extends Rectangle2D {
 	@Override
 	public Rectangle clone() {
 		return new Rectangle(location.clone(), size.clone());
+	}
+	
+	@Override
+	public String toString() {
+		return getClass().getName() + "[location=" + location + ",size=" + size + "]@"
+				+ hashCode();
 	}
 }

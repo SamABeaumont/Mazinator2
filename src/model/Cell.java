@@ -20,6 +20,18 @@ public final class Cell {
 		this.rightOpen = rightOpen;
 	}
 	
+	public void removeWall(Direction dir) {
+		if (dir == Direction.UP) {
+			topOpen = true;
+		} else if (dir == Direction.DOWN) {
+			bottomOpen = true;
+		} else if (dir == Direction.LEFT) {
+			leftOpen = true;
+		} else if (dir == Direction.RIGHT) {
+			rightOpen = true;
+		}
+	}
+	
 	public boolean isTopOpen() {
 		return topOpen;
 	}
@@ -34,5 +46,22 @@ public final class Cell {
 	
 	public boolean isRightOpen() {
 		return rightOpen;
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof Cell) {
+			Cell c = (Cell) other;
+			return c.topOpen == topOpen && c.bottomOpen == bottomOpen && c.leftOpen == leftOpen
+					&& c.rightOpen == rightOpen;
+		} else {
+			return false;
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return getClass().getName() + "[topOpen=" + topOpen + ",bottomOpen=" + bottomOpen
+				+ ",leftOpen=" + leftOpen + ",rightOpen=" + rightOpen + "]@" + hashCode();
 	}
 }
