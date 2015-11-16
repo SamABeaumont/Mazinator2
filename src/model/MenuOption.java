@@ -1,9 +1,11 @@
 package model;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.Graphics;
 
+import lib.Point;
 import lib.Rectangle;
 
 /**
@@ -18,6 +20,15 @@ public abstract class MenuOption extends EventReciever implements Displayable {
 	private Rectangle bounds;
 	private DrawableString text;
 	private DrawableString focusText;
+	
+	public MenuOption(Model model, int offset, int num, String text) {
+		this(model, Preferences.getColor(), Preferences.getWallsColor(),
+				new Rectangle(0, offset + num * 100, Preferences.getWindowWidth(), 100),
+				new DrawableString(90, offset + num * 100 + 55, text, Preferences.getWallsColor(),
+						Preferences.getMediumFont()),
+				new DrawableString(90, offset + num * 100 + 55, text, Preferences.getColor(),
+						Preferences.getMediumFont()));
+	}
 	
 	/**
 	 * Initializes a new {@code MenuOption} object with exactly one {@link Background} and exactly
@@ -90,13 +101,12 @@ public abstract class MenuOption extends EventReciever implements Displayable {
 	
 	abstract void onClick();
 	
-	@Override
-	public final void mouseMoved(MouseEvent e) {
-		if (bounds.contains((double) e.getX(), (double) e.getY())) {
-			hasFocus = true;
-		} else {
-			hasFocus = false;
-		}
+	public boolean contains(Point p) {
+		return bounds.contains(p);
+	}
+	
+	public final void setFocus(boolean hasFocus) {
+		this.hasFocus = hasFocus;
 	}
 	
 	@Override
@@ -126,6 +136,6 @@ public abstract class MenuOption extends EventReciever implements Displayable {
 	public final String toString() {
 		return getClass().getName() + "[hasFocus = " + hasFocus + ",color=" + color
 				+ ",focusColor=" + focusColor + ",bounds=" + bounds + ",text=" + text
-				+ ",focusText=" + focusText + "]@" + hashCode();
+				+ ",focusText=" + focusText + "]@" + Integer.toHexString(hashCode());
 	}
 }

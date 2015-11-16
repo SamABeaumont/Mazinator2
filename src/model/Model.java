@@ -3,15 +3,28 @@ package model;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
+
+import javax.swing.JOptionPane;
 
 import lib.Rectangle;
 
-public final class Model extends EventReciever implements Displayable {
+public final class Model extends Sketchpad {
+	private static boolean created = false;
+	
 	private Screen[] screens = new Screen[4];
 	private Screen currentScreen;
 	private Game game;
 	
 	public Model() {
+		if (created) {
+			JOptionPane.showMessageDialog(null,
+					"Only one mazinator game may be running at any given time", "",
+					JOptionPane.ERROR_MESSAGE);
+			System.exit(1);
+		}
+		
+		created = true;
 		screens[Screens.HOME] = new Menu(this, Preferences.getColor(),
 				new DrawableString(80, 80, "mazinator", Preferences.getWallsColor(),
 						Preferences.getLargeFont()),
@@ -27,7 +40,6 @@ public final class Model extends EventReciever implements Displayable {
 												Preferences.getMediumFont())) {
 							@Override
 							protected void onClick() {
-								System.out.println(getModel());
 								getModel().setScreen(Screens.GAME);
 							}
 						},
@@ -56,46 +68,23 @@ public final class Model extends EventReciever implements Displayable {
 						}
 				});
 		screens[Screens.GAME] = game;
-		screens[Screens.INSTRUCTIONS] = new Screen(this) {
-			private boolean showMenu = false;
-			private DrawableString[] instructions = {
-					new DrawableString(20, 20,
-							"Use the the up and down arrow keys to move forward and backward.",
-							Preferences.getWallsColor(), Preferences.getSmallFont()),
-					new DrawableString(20, 40, "Use the left and right arrow keys to turn.",
-							Preferences.getWallsColor(), Preferences.getSmallFont()),
-					new DrawableString(20, 60, "Press M to shoot.", Preferences.getWallsColor(),
-							Preferences.getSmallFont()),
-					new DrawableString(20, 80, "Press P to pause.", Preferences.getWallsColor(),
-							Preferences.getSmallFont()),
-					new DrawableString(20, 100, "Enjoy.", Preferences.getWallsColor(),
-							Preferences.getSmallFont())
-			};
-			
-			private Menu menu = new Menu(Model.this, Preferences.getColor(),
-					new DrawableString(20, 20, "instructions", Preferences.getWallsColor(),
-							Preferences.getLargeFont()), new MenuOption[] {
-									
-							});
-			
-			@Override
-			public void display(Graphics g) {
-				if (showMenu) {
-					menu.display(g);
-				} else {
-					for (int i = 0; i < instructions.length; i++) {
-						instructions[i].display(g);
-					}
-				}
-			}
-			
-			@Override
-			public void keyPressed(KeyEvent e) {
-				showMenu = true;
-			}
-		};
+		screens[Screens.INSTRUCTIONS] = new Instructions(this);
 		screens[Screens.PREFERENCES] = new Preferences(this);
 		currentScreen = screens[Screens.HOME];
+		
+		start();
+	}
+	
+	@Override
+	public void setup(Graphics g) {
+		setTitle("mazinator");
+		setSize(400, 600);
+		setResizable(false);
+	}
+	
+	@Override
+	public void draw(Graphics g) {
+		currentScreen.display(g);
 	}
 	
 	@Override
@@ -117,6 +106,8 @@ public final class Model extends EventReciever implements Displayable {
 		currentScreen.exit();
 		if (screen == Screens.GAME) {
 			game = new Game(this);
+			System.out.println("game=" + game);
+			screens[Screens.GAME] = game;
 			currentScreen = screens[Screens.GAME];
 			game.start();
 		} else {
@@ -124,8 +115,15 @@ public final class Model extends EventReciever implements Displayable {
 		}
 	}
 	
-	@Override
-	public void display(Graphics g) {
-		currentScreen.display(g);
+	public String toString() {
+		return getClass().getName() + "[" + super.toString()
+				+ ",screens=" + Arrays.toString(screens)
+				+ ",currentScreen=" + currentScreen + ",game=" + game + "]@"
+				+ Integer.toHexString(hashCode());
+	}
+	
+	public static void main(String[] args) {
+		@SuppressWarnings("unused")
+		Model model = new Model();
 	}
 }

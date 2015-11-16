@@ -1,4 +1,4 @@
-package view;
+package model;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -25,15 +25,12 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
-import model.EventReciever;
-
 public abstract class Sketchpad extends EventReciever implements Runnable {
 	private Color background = Color.BLACK;
 	private Graphics g;
 	private JFrame f;
 	private JPanel p;
 	private boolean canDraw = false;
-	private long lastClickTime;
 	
 	protected Sketchpad() {
 		f = new JFrame();
@@ -46,8 +43,9 @@ public abstract class Sketchpad extends EventReciever implements Runnable {
 					g.fillRect(0, 0, p.getWidth(), p.getHeight());
 					g.setColor(c);
 					draw(g);
-					repaint();
 				}
+				// call repaint after the if statement in case this method is called before start
+				repaint();
 			}
 			
 			private static final long serialVersionUID = 7689980947403877048L;
@@ -129,7 +127,7 @@ public abstract class Sketchpad extends EventReciever implements Runnable {
 			}
 		});
 		
-		p.addKeyListener(new KeyListener() {
+		f.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				Sketchpad.this.keyPressed(e);
@@ -317,20 +315,25 @@ public abstract class Sketchpad extends EventReciever implements Runnable {
 		return f.isFocusOwner();
 	}
 	
-	public final boolean isWindowMaximumSizeSet() {
+	public final boolean isMaximumSizeSet() {
 		return f.isMaximumSizeSet();
 	}
 	
-	public final boolean isWindowMinimumSizeSet() {
+	public final boolean isMinimumSizeSet() {
 		return f.isMinimumSizeSet();
 	}
 	
-	public final boolean isWindowPreferredSizeSet() {
+	public final boolean isPreferredSizeSet() {
 		return f.isPreferredSizeSet();
 	}
 	
 	@Override
 	public final void run() {
 		while(true);
+	}
+	
+	public String toString() {
+		return getClass().getName() + "[background=" + background + ",g=" + g + ",f=" + f
+				+ ",p=" + p + ",canDraw=" + canDraw + "]@" + Integer.toHexString(hashCode());
 	}
 }

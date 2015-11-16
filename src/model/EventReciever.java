@@ -6,6 +6,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.WindowEvent;
 
+/**
+ * An abstract class to represent objects that listen for AWT events.
+ * @author Sam Beaumont
+ */
 public abstract class EventReciever {
 	public void windowLostFocus(WindowEvent e) {}
 	

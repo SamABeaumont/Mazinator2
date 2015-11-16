@@ -55,6 +55,7 @@ public class Point extends Point2D {
 	
 	@Override
 	public String toString() {
-		return getClass().getName() + "[x=" + x + ",y=" + y + "]@" + hashCode();
+		return getClass().getName() + "[x=" + x + ",y=" + y + "]@"
+				+ Integer.toHexString(hashCode());
 	}
 }

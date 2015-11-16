@@ -138,6 +138,6 @@ public class Rectangle extends Rectangle2D {
 	@Override
 	public String toString() {
 		return getClass().getName() + "[location=" + location + ",size=" + size + "]@"
-				+ hashCode();
+				+ Integer.toHexString(hashCode());
 	}
 }

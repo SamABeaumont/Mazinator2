@@ -1,10 +1,12 @@
 package model;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.Graphics;
 import java.util.Arrays;
 
+import lib.Point;
 
 public class Menu extends Screen {
 	private Color backgroundColor;
@@ -18,6 +20,10 @@ public class Menu extends Screen {
 		this.options = options;
 	}
 	
+	public void exit() {
+		getModel().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+	}
+	
 	public void mouseClicked(MouseEvent e) {
 		for (int i = 0; i < options.length; i++) {
 			options[i].mouseClicked(e);
@@ -25,8 +31,19 @@ public class Menu extends Screen {
 	}
 	
 	public void mouseMoved(MouseEvent e) {
+		boolean optionHasFocus = false;
 		for (int i = 0; i < options.length; i++) {
-			options[i].mouseMoved(e);
+			if (options[i].contains(new Point(e.getX(), e.getY()))) {
+				options[i].setFocus(true);
+				getModel().setCursor(new Cursor(Cursor.HAND_CURSOR));
+				optionHasFocus = true;
+			} else {
+				options[i].setFocus(false);
+			}
+		}
+		
+		if (!optionHasFocus) {
+			getModel().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 		}
 	}
 	
@@ -47,6 +64,6 @@ public class Menu extends Screen {
 	@Override
 	public String toString() {
 		return getClass().getName() + "[backgroundColor=" + backgroundColor + ",title=" + title
-				+ ",options=" + Arrays.toString(options) + "]@" + hashCode();
+				+ ",options=" + Arrays.toString(options) + "]@" + Integer.toHexString(hashCode());
 	}
 }

@@ -11,5 +11,5 @@ public abstract class Screen extends EventReciever implements Displayable {
 		return model;
 	}
 	
-	void exit() {}
+	protected void exit() {}
 }

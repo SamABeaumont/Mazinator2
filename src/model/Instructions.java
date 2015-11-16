@@ -2,20 +2,16 @@ package model;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 public final class Instructions extends Screen {
-	public static final DrawableString[] INSTRUCTIONS = {
-			new DrawableString(20, 20,
-					"Use the the up and down arrow keys to move forward and backward.",
-					Preferences.getWallsColor(), Preferences.getSmallFont()),
-			new DrawableString(20, 40, "Use the left and right arrow keys to turn.",
-					Preferences.getWallsColor(), Preferences.getSmallFont()),
-			new DrawableString(20, 60, "Press M to shoot.", Preferences.getWallsColor(),
-					Preferences.getSmallFont()),
-			new DrawableString(20, 80, "Press P to pause.", Preferences.getWallsColor(),
-					Preferences.getSmallFont()),
-			new DrawableString(20, 100, "Enjoy.", Preferences.getWallsColor(),
-					Preferences.getSmallFont())
+	public static final String[] INSTRUCTIONS = {
+			"Use the the up and down arrow keys",
+			"to move forward and backward.",
+			"Use the left and right arrow keys to turn.",
+			"Press M to shoot.",
+			"Press P to pause.",
+			"Enjoy."
 	};
 	
 	private boolean showMenu = false;
@@ -23,11 +19,32 @@ public final class Instructions extends Screen {
 	
 	public Instructions(Model model) {
 		super(model);
-		System.out.println(this);
+		
 		menu = new Menu(getModel(), Preferences.getColor(),
-				new DrawableString(20, 20, "instructions", Preferences.getWallsColor(),
+				new DrawableString(40, 60, "instructions", Preferences.getWallsColor(),
 						Preferences.getLargeFont()), new MenuOption[] {
+								new MenuOption(getModel(), 100, 0, "play game") {
+									@Override
+									public void onClick() {
+										showMenu = false;
+										model.setScreen(Screens.GAME);
+									}
+								},
 								
+								new MenuOption(getModel(), 100, 1, "repeat instructions") {
+									@Override
+									public void onClick() {
+										showMenu = false;
+									}
+								},
+								
+								new MenuOption(getModel(), 100, 2, "home menu") {
+									@Override
+									public void onClick() {
+										showMenu = false;
+										getModel().setScreen(Screens.HOME);
+									}
+								},
 						});
 	}
 	
@@ -36,11 +53,14 @@ public final class Instructions extends Screen {
 		if (showMenu) {
 			menu.display(g);
 		} else {
+			new DrawableString(40, 60, "instructions", Preferences.getWallsColor(),
+					Preferences.getLargeFont()).display(g);
 			for (int i = 0; i < INSTRUCTIONS.length; i++) {
-				INSTRUCTIONS[i].display(g);
+				new DrawableString(20, i * 20 + 100, INSTRUCTIONS[i], Preferences.getWallsColor(),
+						Preferences.getSmallFont()).display(g);
 			}
 			
-			new DrawableString(20, Preferences.getWindowHeight() - 20,
+			new DrawableString(20, Preferences.getWindowHeight() - 50,
 					"Press any key to continue...", Preferences.getWallsColor(),
 					Preferences.getSmallFont()).display(g);
 		}
@@ -51,12 +71,23 @@ public final class Instructions extends Screen {
 		showMenu = true;
 	}
 	
-	public static void main(String[] args) {
-		Instructions i = new Instructions(new Model());
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (showMenu) {
+			menu.mouseClicked(e);
+		}
+	}
+	
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		if (showMenu) {
+			menu.mouseMoved(e);
+		}
 	}
 	
 	@Override
 	public String toString() {
-		return getClass().getName() + "[showMenu=" + showMenu + "]@" + hashCode();
+		return getClass().getName() + "[showMenu=" + showMenu + "]@"
+				+ Integer.toHexString(hashCode());
 	}
 }

@@ -32,7 +32,7 @@ public final class Preferences extends Menu {
 	
 	public Preferences (Model model) {
 		super(model, color,
-				new DrawableString(new Point(20, 20), "preferences", wallsColor, largeFont),
+				new DrawableString(30, 60, "preferences", wallsColor, largeFont),
 				new MenuOption[] {
 					
 				});
